@@ -1,0 +1,7 @@
+# This is a comment
+Print('Hello World!')
+
+# Simple square function
+func square (x) do
+    return x*x
+end
