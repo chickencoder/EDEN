@@ -1,7 +1,7 @@
 package com.edenlang.codegen;
 
+import com.edenlang.parser.Parser;
 import com.edenlang.parser.ast.Node;
-import com.edenlang.parser.ast.VarAssignmentNode;
 
 import java.util.List;
 
@@ -10,22 +10,55 @@ import java.util.List;
  * of C code from the transformed AST produced by the Transformer.
  */
 public class Generator {
+    public static class CompileTimeError extends Exception {
+        public CompileTimeError(String msg) {
+            super(msg);
+        }
+    }
+
     private List<Node> ast;
 
     public Generator(List<Node> t_ast) {
         this.ast = t_ast;
     }
 
-    public String generate() {
+    public String generate() throws CompileTimeError {
         SourceFile sourceBuilder = new SourceFile();
 
-        for (int i = 0; i < this.ast.size(); i++) {
+        for (Node node: this.ast) {
+            // Generate VarAssignments
+            if (node.getNodeType().equals("VarAssignment")) {
+                String ident = node.getChildren().get(0).getNodeValue();
+                String value = "";
+                String type = "";
 
-            // Generate integer assignment
-            if (this.ast.get(i).getClass().getName().contains("VarAssignmentNode")) {
-//                this.ast.get(i).get
-                // This is where I'm stuck... I need to call methods on different classes
-                // but how will I know which classes are which? :/
+                // Determine variable type & set indent, value
+                if (node.getChildren().get(1).getNodeType().equals("StringLiteral")) {
+                    ident = "*" + ident;
+                    value = "\"" + node.getChildren().get(1).getNodeValue() + "\"";
+                    type = "char";
+                } else if (node.getChildren().get(1).getNodeType().equals("IntegerLiteral")) {
+                    type = "int";
+                    value = node.getChildren().get(1).getNodeValue();
+                } else {
+                    throw new CompileTimeError("Cannot assign variable " + ident);
+                }
+
+                sourceBuilder.addLineToMain(1, type + " " + ident + " = " + value + ";");
+            }
+
+            // Generate Print calls
+            if (node.getNodeType().equals("PrintCall")) {
+                String value = "";
+                if (node.getChildren().get(0).getNodeType().equals("IntegerLiteral")) {
+                    value = "\"%d\"" + ", " + node.getChildren().get(0).getNodeValue();
+                } else if (node.getChildren().get(0).getNodeType().equals("StringLiteral")) {
+                    value = "\"" + node.getChildren().get(0).getNodeValue() + "\"";
+                } else if (node.getChildren().get(0).getNodeType().equals("Identifier")) {
+                    value = node.getChildren().get(0).getNodeValue();
+                }
+
+                sourceBuilder.addLineToMain(1, "printf(" + value + "\");");
             }
         }
 

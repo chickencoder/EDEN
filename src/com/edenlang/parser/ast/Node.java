@@ -2,14 +2,28 @@ package com.edenlang.parser.ast;
 
 import com.edenlang.lexer.Token;
 
-public class Node {
-    private String value;
+import java.util.List;
 
-    public Node(String value) {
+public class Node {
+    private String type;
+    private String value;
+    private List<Node> children;
+
+    public Node(String type, String value, List<Node> children) {
+        this.type = type;
         this.value = value;
+        this.children = children;
+    }
+
+    public String getNodeType() {
+        return this.type;
     }
 
     public String getNodeValue() {
         return this.value;
+    }
+
+    public List<Node> getChildren() {
+        return this.children;
     }
 }
