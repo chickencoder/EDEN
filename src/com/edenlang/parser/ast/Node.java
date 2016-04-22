@@ -4,7 +4,7 @@ import com.edenlang.lexer.Token;
 
 import java.util.List;
 
-public class Node {
+public abstract class Node implements Visitable {
     private String type;
     private String value;
     private List<Node> children;

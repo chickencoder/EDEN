@@ -3,6 +3,7 @@ package com.edenlang;
 import com.edenlang.codegen.Generator;
 import com.edenlang.fileUtils.FileWriter;
 import com.edenlang.lexer.Lexer;
+import com.edenlang.lexer.PreProcessor;
 import com.edenlang.lexer.Token;
 import com.edenlang.parser.Parser;
 import com.edenlang.parser.Transformer;
@@ -14,16 +15,13 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        FileReader f = new FileReader("C:\\Users\\CCF Youth\\IdeaProjects\\EDEN\\examples\\welcome.eden");
+        FileReader f = new FileReader("C:\\Users\\CCF Youth\\IdeaProjects\\EDEN\\examples\\hello.eden");
         String buffer = f.readFully();
 
-        Lexer l = new Lexer(buffer);
-        List<Token> tokens = l.lex();
-//        for (int i = 0; i < tokens.size(); i++) {
-//            tokens.get(i).prettyPrintToken();
-//        }
+        PreProcessor.process("%include 'std'");
 
-        Parser p = new Parser(tokens);
+        Lexer l = new Lexer(buffer);
+        Parser p = new Parser(l);
         List<Node> ast = p.parse();
 
         // Transformer

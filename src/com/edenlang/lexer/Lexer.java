@@ -16,6 +16,8 @@ import java.util.regex.Pattern;
 public class Lexer {
     private String buffer = "";
     private int position = 0;
+    private List<Token> tokens = new ArrayList<>();
+    private int token_location = 0;
 
     private Pattern number = Pattern.compile("[0-9]");
     private Pattern letter = Pattern.compile("[a-zA-Z]");
@@ -24,7 +26,7 @@ public class Lexer {
     private Pattern whitespace = Pattern.compile("[\\s]");
 
     public Lexer(String source) {
-        this.buffer = source;
+        this.buffer = PreProcessor.process(source);
     }
 
     public boolean charIsInteger(String c) {
@@ -54,6 +56,7 @@ public class Lexer {
             "func",
             "if",
             "then",
+            "else",
             "end",
             "for",
             "do",
@@ -101,7 +104,7 @@ public class Lexer {
         }
     }
 
-    public List<Token> lex() throws Exception {
+    public void lex() throws Exception {
         /**
          * The Lexer tests for each of the
          * following token types in this
@@ -226,6 +229,10 @@ public class Lexer {
                 throw new Exception("Unrecognised token: " + ch);
             }
         }
-        return tokens;
+        this.tokens = tokens;
+    }
+
+    public Token nextToken() {
+        return this.tokens.get(this.token_location++);
     }
 }

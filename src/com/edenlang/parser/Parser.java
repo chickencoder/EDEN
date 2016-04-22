@@ -1,5 +1,6 @@
 package com.edenlang.parser;
 
+import com.edenlang.lexer.Lexer;
 import com.edenlang.lexer.Token;
 import com.edenlang.parser.ast.*;
 
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class Parser {
     private int cursor = 0;
-    private List<Token> tokens;
+    private Lexer lexer;
     private List<Node> ast = new ArrayList<>();
 
     public static class ParseError extends Exception {
@@ -22,8 +23,9 @@ public class Parser {
         }
     }
 
-    public Parser(List<Token> tokens) {
-        this.tokens = tokens;
+    public Parser(Lexer l) throws Exception {
+        l.lex();
+        this.lexer = l;
     }
 
     private Node walk() throws ParseError {
@@ -62,12 +64,15 @@ public class Parser {
                 children.add(value);
 
                 return new Node("VarAssignment", token.getTokenData(), children);
+
         } else if (token.getTokenType().equals(Token.TokenType.PAREN)) {
             this.cursor++;
             return new Node("Paren", token.getTokenData(), null);
+
         } else if (token.getTokenType().equals(Token.TokenType.STRING)) {
             this.cursor++;
             return new Node("StringLiteral", token.getTokenData(), null);
+
         } else if (token.getTokenType().equals(Token.TokenType.RESERVED)
                     && token.getTokenData().equals("print")) {
             this.cursor++;
