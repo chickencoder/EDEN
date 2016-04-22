@@ -1,5 +1,0 @@
-# EDEN is amazing
-print('Welcome to EDEN...')
-print('Eden is maintained by Jesse Sibley')
-print('As an experiment... writing a compiler!')
-print('And obviously.... it worked!')
