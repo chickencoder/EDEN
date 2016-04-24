@@ -8,5 +8,11 @@ public class IdentifierNode extends Node {
         this.ident = identifier;
     }
 
-    public void visit() { }
+    public String getIdent() {
+        return this.ident;
+    }
+
+    public Object visit(Visitor v, Object param) throws Exception {
+        return v.visitIdentifierNode(this, param);
+    }
 }

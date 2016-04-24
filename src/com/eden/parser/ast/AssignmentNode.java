@@ -1,16 +1,16 @@
 package com.eden.parser.ast;
 
 public class AssignmentNode extends Node {
-    private Node type;
-    private Node ident;
-    private Node value;
+    private IdentifierNode ident;
+    private IntegerLiteralNode value;
 
-    public AssignmentNode(Node type, Node ident, Node value) {
+    public AssignmentNode(IdentifierNode ident, IntegerLiteralNode value) {
         super();
-        this.type = type;
         this.ident = ident;
         this.value = value;
     }
 
-    public void visit() { }
+    public Object visit(Visitor v, Object param) throws Exception {
+        return v.visitAssignmentNode(this, param);
+    }
 }

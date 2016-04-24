@@ -52,7 +52,7 @@ public class Lexer {
     }
 
     public final String[] reserves = {
-        "int", "str", "bool", "nil"
+        "let"
     };
 
     public boolean isTokenReserved(String token) {
