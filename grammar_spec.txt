@@ -3,41 +3,7 @@
 "
 " Ex. int i := 10
 
-<assignment> ::= <type> <identifier> ':=' <expression>
-
-<type> ::= 'int' | 'str' | 'bool' | 'nil'
-
-<literal> ::= <int-literal>
-            | <string-literal>
-            | <bool-literal>
-            | <nil-literal>
-
+<assignment> ::= 'let' <identifier> ':=' <int-literal>
 <int-literal> ::= <digit> | <digit><int-literal>
 <digit> ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
-
-<string-literal> ::= '"'<word-char>'"' | '"'<word-char><string-literal>'"'
-<word-char> ::= // Matches '\w' regex
-
-<bool-literal> ::= 'true' | 'false'
-<nil-literal>  ::= 'nil'
-
-// Simplified: could include underscores
 <identifier> ::= <word-char> | <word-char><identifier>
-
-// In this grammar, an expression is any 'statement'
-// that has a value or can be evaluated.
-<expression> ::= <literal>
-               | <identifier>
-               | <literal> <operator> <literal>
-               | <literal> <operator> <identifier>
-               | <identifier> <operator> <literal>
-               | <identifier> <operator> <identifier>
-
-<operator> ::= <calc-operator> | <logic-operator> | <comparison-operator>
-
-<calc-operator> ::= '+' | '-' | '*' | '/'
-
-<logic-operator> ::= '&&' | '||'
-
-<comparison-operator> ::= '==' | '!=' | '<' | '>' | '>=' | '<='
-

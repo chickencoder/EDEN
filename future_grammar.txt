@@ -1,0 +1,18 @@
+
+// In this grammar, an expression is any 'statement'
+// that has a value or can be evaluated.
+<expression> ::= <literal>
+               | <identifier>
+               | <literal> <operator> <literal>
+               | <literal> <operator> <identifier>
+               | <identifier> <operator> <literal>
+               | <identifier> <operator> <identifier>
+
+<operator> ::= <calc-operator> | <logic-operator> | <comparison-operator>
+
+<calc-operator> ::= '+' | '-' | '*' | '/'
+
+<logic-operator> ::= '&&' | '||'
+
+<comparison-operator> ::= '==' | '!=' | '<' | '>' | '>=' | '<='
+

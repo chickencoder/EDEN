@@ -53,7 +53,6 @@ public class Parser {
 
                 this.cursor++;
 
-
                 // Walk to find indentifier
                 Node ident = walk();
                 // Make sure next token is an identifier
