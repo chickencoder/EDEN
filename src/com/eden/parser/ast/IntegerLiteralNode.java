@@ -8,6 +8,10 @@ public class IntegerLiteralNode extends Node {
         this.value = value;
     }
 
+    public String getValue() {
+        return this.value;
+    }
+
     public Object visit(Visitor v, Object param) throws Exception {
         return v.visitIntegerLiteralNode(this, param);
     }

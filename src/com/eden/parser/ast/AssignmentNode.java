@@ -10,6 +10,14 @@ public class AssignmentNode extends Node {
         this.value = value;
     }
 
+    public IdentifierNode getIdent() {
+        return this.ident;
+    }
+
+    public IntegerLiteralNode getIntegerLiteral() {
+        return this.value;
+    }
+
     public Object visit(Visitor v, Object param) throws Exception {
         return v.visitAssignmentNode(this, param);
     }
